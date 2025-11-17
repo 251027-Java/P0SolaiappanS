@@ -10,13 +10,17 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner readPersonInformation = new Scanner(System.in);
-
+        String firstName = "";
+        String lastName = "";
         //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
         // to see how IntelliJ IDEA suggests fixing it.
         PostgreSQLRepository flight = new PostgreSQLRepository();
         flight.createFlight();
         System.out.println("What is your first name?");
+        firstName = readPersonInformation.next();
         System.out.println("What is your last name?");
+        lastName = readPersonInformation.next();
+
 
     }
 }
