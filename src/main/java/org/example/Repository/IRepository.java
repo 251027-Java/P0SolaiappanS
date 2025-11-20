@@ -1,11 +1,9 @@
 package org.example.Repository;
 
-import org.example.Flight;
+import org.example.Repository.*;
+import org.example.*;
 
 public interface IRepository {
-    public void bookTicket(Flight flight);
-
-    public void changeTicket(Flight flight);
-
-    public void deleteTicket(int id);
+    public void createFlight(Flight flight);
+    public void insertPassenger(Passenger passenger);
 }

@@ -22,4 +22,8 @@ public class Passenger {
     public String getLastName() { return this.lastName; }
     public Date getDate() { return flightDate; }
 
+    @Override
+    public String toString() {
+        return "Passenger [id= " + this.id + ", firstName= " + this.firstName + ", lastName= " + this.lastName + ", date= " + flightDate +"]";
+    }
 }
