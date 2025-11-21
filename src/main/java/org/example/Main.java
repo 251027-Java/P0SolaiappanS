@@ -47,7 +47,7 @@ public class Main {
         while (continueInput) {
             System.out.println("Choose a flight you want to book.");
             for (Flight f : flights) {
-                System.out.println(f.getId() + ": " + f.getFlightNumber() + " - " + f.getAirlines());
+                    System.out.println(f.getId() + ": " + f.getFlightNumber() + " - " + f.getDate()+ " - " + f.getAirlines() + " - " +f.getDestination());
             }
             int chosenFlightId = 0;
             while (true) {

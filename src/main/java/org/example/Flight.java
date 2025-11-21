@@ -9,13 +9,15 @@ public class Flight {
     private Date flightDate;
     private String airlines;
     private double price;
+    private String destination;
 
     // Constructor
-    public Flight(String flightNumber, Date date, String airlines, double price) {
+    public Flight(String flightNumber, Date date, String airlines, double price, String destination) {
         this.flightNumber = flightNumber;
         flightDate = date;
         this.airlines = airlines;
         this.price = price;
+        this.destination=destination;
     }
 
     public void setId(int id) { this.id = id; }
@@ -24,7 +26,7 @@ public class Flight {
     public Date getDate() { return flightDate; }
     public String getAirlines() { return this.airlines; }
     public double getPrice() { return this.price; }
-
+    public String getDestination() { return this.destination; }
 
 
     public String toString() {
