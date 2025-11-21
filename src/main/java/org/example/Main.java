@@ -1,46 +1,98 @@
 package org.example;
 
-import org.example.Repository.*; // explicit import
-import org.example.*;
+import org.example.Repository.*;
 
-import java.util.Date;
-import java.util.Scanner;
+import java.util.*;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
 
     public static void main(String[] args) {
         IRepository repo = new PostgreSQLRepository();
-        Flight myFlight = new Flight("AA242",  new java.sql.Timestamp(new Date().getTime()), "American Airlines", 500.23);
-        int generatedFlightId = repo.createFlight(myFlight);
+
+        List<Flight> flights = repo.getAllFlights();
 
         Scanner readPersonInformation = new Scanner(System.in);
         String firstName = "";
         String lastName = "";
-        String flightId = "";
         boolean continueInput = true;
         String keepBooking = "";
 
+        while (true) {
+            System.out.println("What is your first name?");
+            firstName = readPersonInformation.nextLine();
 
-        System.out.println("What is your first name?");
-        firstName = readPersonInformation.next();
-        System.out.println("What is your last name?");
-        lastName = readPersonInformation.next();
-        Passenger you = new Passenger( firstName, lastName, new Date());
-        int generatedPassengerId = repo.insertPassenger(you);
-        while(continueInput) {
-            System.out.println("Choose a flight you want to book.");
-            System.out.println(myFlight);
+            if (firstName.matches("[A-Za-z ]+")) {
+                break;
+            }
 
-            int chosenFlightId = Integer.parseInt(readPersonInformation.next());
-            repo.insertPassengerFlight(generatedPassengerId, chosenFlightId);
-            System.out.println("Do you want to book any more flights? Y/N");
-            keepBooking = readPersonInformation.next();
-            if (keepBooking.equals("N")) continueInput = false;
+            System.out.println("Invalid firstName. Please enter letters only.");
         }
 
-        System.out.println("New passenger: "+you.toString());
+        while (true) {
+            System.out.println("What is your last name?");
+            lastName = readPersonInformation.nextLine();
+
+            if (lastName.matches("[A-Za-z ]+")) {
+                break;
+            }
+
+            System.out.println("Invalid lastName. Please enter letters only.");
+        }
+
+        Passenger you = new Passenger(firstName, lastName, new Date());
+        int generatedPassengerId = repo.insertPassenger(you);
+
+        List<Integer> bookedFlightIds = new ArrayList<>();
+
+        while (continueInput) {
+            System.out.println("Choose a flight you want to book.");
+            for (Flight f : flights) {
+                System.out.println(f.getId() + ": " + f.getFlightNumber() + " - " + f.getAirlines());
+            }
+            int chosenFlightId = 0;
+            while (true) {
+                System.out.print("Enter a valid flight ID: ");
+                String input = readPersonInformation.next();
+
+                if (!input.matches("\\d+")) {
+                    System.out.println("Invalid input. Please enter a number.");
+                    continue;
+                }
+
+                chosenFlightId = Integer.parseInt(input);
+                if (!repo.flightExists(chosenFlightId)) {
+                    System.out.println("Flight ID not found. Try again.");
+                    continue;
+                }
+
+                if (bookedFlightIds.contains(chosenFlightId)) {
+                    System.out.println("You already booked this flight. Choose another one.");
+                    continue;
+                }
+
+                break;
+            }
+
+            repo.insertPassengerFlight(generatedPassengerId, chosenFlightId);
+            bookedFlightIds.add(chosenFlightId);
+
+            boolean validInput = false;
+            while (!validInput) {
+                System.out.println("Do you want to book any more flights? Y/N");
+                keepBooking = readPersonInformation.next();
+
+                if (keepBooking.equals("Y")) {
+                    validInput = true;
+                } else if (keepBooking.equals("N")) {
+                    continueInput = false;
+                    validInput = true;
+                    System.out.println("Thank you! Your bookings are complete.");
+                } else {
+                    System.out.println("Invalid input. Please enter Y or N.");
+                }
+            }
+        }
+
 
     }
 }
