@@ -10,13 +10,13 @@ public class Passenger {
     private Date flightDate;
 
     // Constructor
-    public Passenger(int id, String firstName, String lastName, Date date) {
-        this.id = id;
+    public Passenger(String firstName, String lastName, Date date) {
         this.firstName = firstName;
         this.lastName = lastName;
         flightDate = date;
     }
 
+    public void setId(int id) { this.id = id; }
     public int getId() { return this.id; }
     public String getFirstName() { return this.firstName; }
     public String getLastName() { return this.lastName; }
@@ -24,6 +24,6 @@ public class Passenger {
 
     @Override
     public String toString() {
-        return "Passenger [id= " + this.id + ", firstName= " + this.firstName + ", lastName= " + this.lastName + ", date= " + flightDate +"]";
+        return "Passenger [firstName= " + this.firstName + ", lastName= " + this.lastName + ", date= " + flightDate +"]";
     }
 }
